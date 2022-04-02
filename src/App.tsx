@@ -1,11 +1,29 @@
 import * as React from "react";
+import Card from "./Components/Card";
 
-class App extends React.Component {
+interface AppProps {}
+
+interface AppState {
+	cardFlipped: boolean[];
+}
+
+class App extends React.Component<AppProps, AppState> {
+	constructor(props: AppProps) {
+		super(props);
+
+		this.state = {
+			cardFlipped: []
+		};
+	}
+	
 	render() {
 		return (
-			<header>
-				<h1>Literary Terms Card Game</h1>
-			</header>
+			<div className="app">
+				<header>
+					<h1>Literary Terms Card Game</h1>
+				</header>
+				<Card name="Card Name" text="Card Text"/>
+			</div>
 		);
 	}
 }
