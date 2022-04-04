@@ -1,26 +1,43 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { IGameState } from "../GameState";
+import { IGameState, GameDispatch } from "../GameState";
 import "./Card.css";
 
-interface CardProps {
+interface ICardProps {
 	name: string;
 	text: string;
 }
 
-interface CardState {
+interface ICardState {
 	flipped: boolean;
 }
 
-function mapStateToProps(state: IGameState, ownProps: CardProps): CardProps {
+interface IMapStateToProps extends ICardProps {}
+
+interface IMapDispatchToProps {
+	flipCard(card: Card): IGameState;
+}
+
+function mapStateToProps(state: IGameState, ownProps: ICardProps): IMapStateToProps {
 	return {
 		name: ownProps.name,
 		text: ownProps.text
 	};
 }
 
-class Card extends React.Component<CardProps, CardState> {
-	constructor(props: CardProps) {
+function mapDispatchToProps(dispatch: GameDispatch): IMapDispatchToProps {
+	return {
+		flipCard(card: Card): IGameState {
+			return dispatch({
+				type: "FLIP_CARD",
+				card: card
+			});
+		}
+	};
+}
+
+class Card extends React.Component<ICardProps, ICardState> {
+	constructor(props: ICardProps) {
 		super(props);
 
 		this.state = {
@@ -62,12 +79,9 @@ class Card extends React.Component<CardProps, CardState> {
 			flipped: true
 		});
 
-		this.props.dispatch({
-			type: "FLIP_CARD",
-			card: this
-		});
+		this.props.flipCard(this);
 	}
 }
 
 export default Card;
-export const CardConnected = connect<CardProps>(mapStateToProps)(Card);
+export const CardConnected = connect<IMapStateToProps, IMapDispatchToProps, ICardProps, IGameState>(mapStateToProps, mapDispatchToProps)(Card);
