@@ -5,8 +5,9 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import App from "./App";
 import gameReducer from "./GameReducer";
+import { IGameState, IGameAction, GameDispatch } from "./GameState";
 
-const store: Redux.Store<GameState, GameAction> & {
+const store: Redux.Store<IGameState, IGameAction> & {
 	dispatch: GameDispatch
 } = Redux.createStore(gameReducer, Redux.applyMiddleware(thunk));
 

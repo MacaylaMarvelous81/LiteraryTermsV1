@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Dispatch } from "redux";
-import { useDispatch } from "react-redux";
-
+import { connect } from "react-redux";
+import { IGameState } from "../GameState";
 import "./Card.css";
 
 interface CardProps {
@@ -11,6 +10,13 @@ interface CardProps {
 
 interface CardState {
 	flipped: boolean;
+}
+
+function mapStateToProps(state: IGameState, ownProps: CardProps): CardProps {
+	return {
+		name: ownProps.name,
+		text: ownProps.text
+	};
 }
 
 class Card extends React.Component<CardProps, CardState> {
@@ -48,8 +54,6 @@ class Card extends React.Component<CardProps, CardState> {
 	}
 
 	clicked() {
-		const dispatch: Dispatch<any> = useDispatch();
-		
 		if (this.state.flipped) {
 			return;
 		}
@@ -57,7 +61,13 @@ class Card extends React.Component<CardProps, CardState> {
 		this.setState({
 			flipped: true
 		});
+
+		this.props.dispatch({
+			type: "FLIP_CARD",
+			card: this
+		});
 	}
 }
 
 export default Card;
+export const CardConnected = connect<CardProps>(mapStateToProps)(Card);

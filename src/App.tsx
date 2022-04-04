@@ -1,5 +1,5 @@
 import * as React from "react";
-import Card from "./Components/Card";
+import { CardConnected } from "./Components/Card";
 
 interface AppProps {}
 
@@ -22,7 +22,7 @@ class App extends React.Component<AppProps, AppState> {
 				<header>
 					<h1>Literary Terms Card Game</h1>
 				</header>
-				<Card name="Card Name" text="Card Text"/>
+				<CardConnected name="Card Name" text="Card Text"/>
 			</div>
 		);
 	}
